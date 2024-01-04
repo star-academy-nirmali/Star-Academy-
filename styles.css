@@ -1,0 +1,34 @@
+/*.product {
+  background-image: url(./images/books\ on\ left.jpeg);
+}
+
+*/
+
+
+.header-colour{
+  background-color: #4B0082;
+} 
+
+.header-text{
+  color: #FFD700;
+}
+
+h2 {
+  margin-left: 5%;
+}
+
+.block {
+  display: inline-block;
+}
+
+.mark {
+  font-weight: bold;
+}
+.col {
+  text-align: center;
+}
+
+.only-mark {
+  color: whitesmoke;
+  background-color: green;
+}
