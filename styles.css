@@ -13,6 +13,39 @@
   color: #FFD700;
 }
 
+.box {
+  width: 100px;
+  height: 100px;
+  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px; /* You can adjust the font size as needed */
+  box-sizing: border-box;
+}
+
+.red {
+  background-color: red;
+  color: white; /* White text on red background */
+}
+
+.blue {
+  background-color: blue;
+  color: white; /* White text on blue background */
+}
+
+.green {
+  background-color: green;
+  color: black; /* Black text on green background */
+}
+
+.yellow {
+  background-color: yellow;
+  color: black; /* Black text on yellow background */
+}
+
+
+
 h2 {
   margin-left: 5%;
 }
