@@ -65,3 +65,20 @@ h2 {
   color: whitesmoke;
   background-color: green;
 }
+
+
+
+
+/* Basic styling for the footer */
+.footer {
+  background-color: #333; /* Dark background color for the footer */
+  color: #fff; /* White text color for better visibility */
+  text-align: center; /* Center-align the text */
+  padding: 10px 0; /* Add padding for spacing */
+  position: absolute; /* Fixed to the bottom of the viewport */
+  width: 100%; /* Full width */
+}
+
+.footer p {
+  margin: 0; /* Remove default margin */
+}
