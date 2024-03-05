@@ -13,6 +13,57 @@
   color: #FFD700;
 }
 
+
+/*for result section  */
+
+
+.result-class {
+  text-align: center; /* Align heading in the center */
+}
+
+.circular-boxes {
+  display: flex;
+  justify-content: space-between; /* Distribute space between the circular boxes */
+  align-items: center;
+}
+
+.circular-box {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* Ensure border-radius is 50% to create a perfect circle */
+  border: 2px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+  text-decoration: none; /* Remove underline */
+  color: white; /* Set text color */
+}
+
+.circular-box:nth-child(1) {
+  background-color: #FF5733; /* Change to your desired color */
+}
+
+.circular-box:nth-child(2) {
+  background-color: #33FF57; /* Change to your desired color */
+}
+
+.circular-box:nth-child(3) {
+  background-color: #5733FF; /* Change to your desired color */
+}
+
+.circular-box:nth-child(4) {
+  background-color: #33A3FF; /* Change to your desired color */
+}
+
+.circular-box a {
+  text-decoration: none; /* Remove underline */
+  color: #000; /* Set text color */
+}
+
+
+
+
 .box {
   width: 100px;
   height: 100px;
@@ -27,21 +78,25 @@
 .red {
   background-color: red;
   color: white; /* White text on red background */
+  text-decoration: none; /* Remove underline */
 }
 
 .blue {
   background-color: blue;
   color: white; /* White text on blue background */
+  text-decoration: none; /* Remove underline */
 }
 
 .green {
   background-color: green;
   color: black; /* Black text on green background */
+  text-decoration: none; /* Remove underline */
 }
 
 .yellow {
   background-color: yellow;
   color: black; /* Black text on yellow background */
+  text-decoration: none; /* Remove underline */
 }
 
 
