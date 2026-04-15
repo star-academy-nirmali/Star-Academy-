@@ -76,7 +76,7 @@
 
       <!-- Class Selector -->
       <select onchange="loadResults(this.value)">
-        <option value="class-9">Class 9th</option>
+        <option value="class-09">Class 09th</option>
         <option value="class-10">Class 10th</option>
         <option value="class-11">Class 11th</option>
         <option value="class-12">Class 12th</option>
@@ -97,7 +97,7 @@
         "Rank",
       ];
 
-      async function loadResults(className = "class-09") {
+      async function loadResults(className = "class-09v1") {
         document.getElementById("title").innerText =
           "Results For " + className.replace("-", " ").toUpperCase();
 
