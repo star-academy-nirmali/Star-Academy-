@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Admin Upload</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  </head>
+
+  <body>
+    <h2>Upload Result Excel</h2>
+
+    <input type="file" id="fileInput" />
+    <br /><br />
+
+    <input
+      type="text"
+      id="filename"
+      placeholder="Enter file name (e.g. class-10)"
+    />
+    <br /><br />
+
+    <button onclick="processFile()">Convert & Download JSON</button>
+
+    <script>
+      function processFile() {
+        const file = document.getElementById("fileInput").files[0];
+        const name = document.getElementById("filename").value;
+
+        if (!file || !name) {
+          alert("Upload file and enter name");
+          return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: "array" });
+          const sheet = workbook.Sheets[workbook.SheetNames[0]];
+          let json = XLSX.utils.sheet_to_json(sheet);
+
+          const requiredCols = [
+            "Exam",
+            "Roll No",
+            "Correct Answers",
+            "Incorrect Answers",
+            "Not attempted",
+            "Math Total Marks",
+            "Rank",
+          ];
+
+          const filtered = json.map((row) => {
+            let obj = {};
+            requiredCols.forEach((c) => (obj[c] = row[c]));
+            return obj;
+          });
+
+          // Download JSON
+          const blob = new Blob([JSON.stringify(filtered, null, 2)], {
+            type: "application/json",
+          });
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = name + ".json";
+          a.click();
+        };
+
+        reader.readAsArrayBuffer(file);
+      }
+    </script>
+  </body>
+</html>

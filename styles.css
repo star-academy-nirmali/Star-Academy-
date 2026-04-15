@@ -1,22 +1,17 @@
-/*.product {
+/* .product {
   background-image: url(./images/books\ on\ left.jpeg);
 }
-
 */
 
-
-.header-colour{
-  background-color: #4B0082;
-} 
-
-.header-text{
-  color: #FFD700;
+.header-colour {
+  background-color: #4b0082;
 }
 
+.header-text {
+  color: #ffd700;
+}
 
-/*for result section  */
-
-
+/* For result section */
 .result-class {
   text-align: center; /* Align heading in the center */
 }
@@ -25,6 +20,7 @@
   display: flex;
   justify-content: space-between; /* Distribute space between the circular boxes */
   align-items: center;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 
 .circular-box {
@@ -35,25 +31,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 10px;
+  margin: 10px;
   text-decoration: none; /* Remove underline */
   color: white; /* Set text color */
 }
 
 .circular-box:nth-child(1) {
-  background-color: #FF5733; /* Change to your desired color */
+  background-color: #ff5733; /* Change to your desired color */
 }
 
 .circular-box:nth-child(2) {
-  background-color: #33FF57; /* Change to your desired color */
+  background-color: #33ff57; /* Change to your desired color */
 }
 
 .circular-box:nth-child(3) {
-  background-color: #5733FF; /* Change to your desired color */
+  background-color: #5733ff; /* Change to your desired color */
 }
 
 .circular-box:nth-child(4) {
-  background-color: #33A3FF; /* Change to your desired color */
+  background-color: #33a3ff; /* Change to your desired color */
 }
 
 .circular-box a {
@@ -61,48 +57,45 @@
   color: #000; /* Set text color */
 }
 
-
-
-
 .box {
   width: 100px;
   height: 100px;
-  float: left;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 18px; /* You can adjust the font size as needed */
   box-sizing: border-box;
+  margin: 10px;
 }
 
 .red {
   background-color: red;
   color: white; /* White text on red background */
-  text-decoration: none; /* Remove underline */
 }
 
 .blue {
   background-color: blue;
   color: white; /* White text on blue background */
-  text-decoration: none; /* Remove underline */
 }
 
 .green {
   background-color: green;
   color: black; /* Black text on green background */
-  text-decoration: none; /* Remove underline */
 }
 
 .yellow {
   background-color: yellow;
   color: black; /* Black text on yellow background */
-  text-decoration: none; /* Remove underline */
 }
 
-
-
 h2 {
-  margin-left: 5%;
+  text-align: center; /* Center-align the heading */
+  font-size: 2.5rem; /* Increase font size */
+  font-weight: bold; /* Make the text bold */
+  color: #4b0082; /* Set color to match header color */
+  margin-bottom: 20px; /* Add some space below the heading */
+  text-transform: uppercase; /* Make the text uppercase */
+  letter-spacing: 2px; /* Add some space between letters */
 }
 
 .block {
@@ -112,6 +105,7 @@ h2 {
 .mark {
   font-weight: bold;
 }
+
 .col {
   text-align: center;
 }
@@ -121,19 +115,215 @@ h2 {
   background-color: green;
 }
 
-
-
-
 /* Basic styling for the footer */
 .footer {
   background-color: #333; /* Dark background color for the footer */
   color: #fff; /* White text color for better visibility */
   text-align: center; /* Center-align the text */
   padding: 10px 0; /* Add padding for spacing */
-  position: absolute; /* Fixed to the bottom of the viewport */
+  position: relative; /* Make footer scrollable */
   width: 100%; /* Full width */
 }
 
 .footer p {
   margin: 0; /* Remove default margin */
+}
+
+/* Mobile Navigation */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #ffd700;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.mobile-nav {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+}
+
+.mobile-nav.active {
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .nav.active {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .circular-boxes {
+    justify-content: center; /* Center align circular boxes */
+  }
+}
+
+/* Back to Top Button */
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #4b0082;
+  color: #ffd700;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 99;
+  display: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.back-to-top:hover {
+  background-color: #5a1a9a;
+}
+
+/* Student Carousel */
+.student-carousel {
+  position: relative;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.carousel-item {
+  display: none;
+  transition: opacity 0.5s ease;
+}
+
+.carousel-item.active {
+  display: block;
+}
+
+.carousel-prev,
+.carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(75, 0, 130, 0.7);
+  color: #ffd700;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.carousel-prev {
+  left: 10px;
+}
+
+.carousel-next {
+  right: 10px;
+}
+
+/* Dark Mode */
+.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.dark-mode .header-colour {
+  background-color: #1a1a1a;
+}
+
+.dark-mode .card {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark-mode .card-text {
+  color: #e0e0e0;
+}
+
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #4b0082;
+  color: #ffd700;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Student Modal */
+.student-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+  overflow: auto;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 700px;
+  position: relative;
+  border-radius: 8px;
+}
+
+.close-modal {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-modal:hover {
+  color: black;
+}
+
+.modal-image {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.modal-info {
+  text-align: center;
+}
+
+/* Count-up Animation */
+.count-up {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #4b0082;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
