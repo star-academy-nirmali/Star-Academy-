@@ -1,33 +1,185 @@
 <!doctype html>
 <html>
   <head>
-    <title>Admin Upload</title>
+    <title>Admin Panel</title>
 
+    <!-- Excel Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- Crypto -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+    <style>
+      body {
+        font-family: Arial;
+        background: #f5f5f5;
+        margin: 0;
+      }
+
+      .header {
+        background: #2c3e50;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .card {
+        background: white;
+        margin: 15px;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 6px;
+        background: #3498db;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #2980b9;
+      }
+
+      .logout-btn {
+        background: #e74c3c;
+      }
+
+      .logout-btn:hover {
+        background: #c0392b;
+      }
+
+      .table-container {
+        overflow-x: auto;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 600px;
+      }
+
+      th {
+        background: #2c3e50;
+        color: white;
+      }
+
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: center;
+      }
+
+      #error {
+        color: red;
+      }
+
+      @media (min-width: 768px) {
+        .card {
+          width: 500px;
+          margin: 30px auto;
+        }
+      }
+    </style>
   </head>
 
   <body>
-    <h2>Upload Result Excel</h2>
+    <!-- LOGIN -->
+    <div id="loginBox" class="card">
+      <h3>Admin Login</h3>
 
-    <input type="file" id="fileInput" />
-    <br /><br />
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
 
-    <input
-      type="text"
-      id="filename"
-      placeholder="Enter file name (e.g. class-10)"
-    />
-    <br /><br />
+      <button onclick="login()">Login</button>
+      <p id="error"></p>
+    </div>
 
-    <button onclick="processFile()">Convert & Download JSON</button>
+    <!-- ADMIN PANEL -->
+    <div id="adminContent" style="display: none">
+      <div class="header">Result Upload Panel</div>
+
+      <div class="card">
+        <button class="logout-btn" onclick="logout()">Logout</button>
+
+        <input type="file" id="fileInput" />
+        <input
+          type="text"
+          id="filename"
+          placeholder="Enter file name (e.g. class-9)"
+        />
+
+        <button onclick="processFile()">Convert Excel</button>
+        <button onclick="uploadToGitHub()">🚀 Upload to GitHub</button>
+      </div>
+
+      <div class="card table-container">
+        <div id="preview"></div>
+      </div>
+    </div>
 
     <script>
+      // ================= LOGIN =================
+      const USERNAME = "admin";
+
+      // SHA256("star123")
+      const HASHED_PASSWORD =
+        "a9b9f04336ce0181a08e774e01113b31f6a3a3c7c0e54796aaf01f0f1d233a7a";
+
+      function login() {
+        const user = document.getElementById("username").value;
+        const pass = document.getElementById("password").value;
+
+        const hashedInput = CryptoJS.SHA256(pass).toString();
+
+        if (user === USERNAME && hashedInput === HASHED_PASSWORD) {
+          document.getElementById("loginBox").style.display = "none";
+          document.getElementById("adminContent").style.display = "block";
+          localStorage.setItem("adminLoggedIn", "true");
+        } else {
+          document.getElementById("error").innerText = "Invalid credentials!";
+        }
+      }
+
+      window.onload = function () {
+        if (localStorage.getItem("adminLoggedIn") === "true") {
+          document.getElementById("loginBox").style.display = "none";
+          document.getElementById("adminContent").style.display = "block";
+        }
+      };
+
+      function logout() {
+        localStorage.removeItem("adminLoggedIn");
+        location.reload();
+      }
+
+      // ================= DATA =================
+      let latestJSON = null;
+      let latestFileName = null;
+
+      // ================= EXCEL PROCESS =================
       function processFile() {
         const file = document.getElementById("fileInput").files[0];
         const name = document.getElementById("filename").value;
 
         if (!file || !name) {
-          alert("Upload file and enter name");
+          alert("Upload file and enter filename");
           return;
         }
 
@@ -39,33 +191,107 @@
           const sheet = workbook.Sheets[workbook.SheetNames[0]];
           let json = XLSX.utils.sheet_to_json(sheet);
 
-          const requiredCols = [
+          const columns = [
             "Exam",
             "Roll No",
             "Correct Answers",
             "Incorrect Answers",
             "Not attempted",
-            "Math Total Marks",
+            "Math",
+            "Total Marks",
             "Rank",
           ];
 
           const filtered = json.map((row) => {
             let obj = {};
-            requiredCols.forEach((c) => (obj[c] = row[c]));
+            columns.forEach((c) => (obj[c] = row[c]));
             return obj;
           });
 
-          // Download JSON
-          const blob = new Blob([JSON.stringify(filtered, null, 2)], {
-            type: "application/json",
-          });
-          const a = document.createElement("a");
-          a.href = URL.createObjectURL(blob);
-          a.download = name + ".json";
-          a.click();
+          latestJSON = filtered;
+          latestFileName = name + ".json";
+
+          renderPreview(filtered, columns);
+
+          alert("✅ File ready. Now click Upload.");
         };
 
         reader.readAsArrayBuffer(file);
+      }
+
+      // ================= PREVIEW =================
+      function renderPreview(data, columns) {
+        let html = "<h3>Preview</h3><table><tr>";
+
+        columns.forEach((c) => (html += `<th>${c}</th>`));
+        html += "</tr>";
+
+        data.forEach((row) => {
+          html += "<tr>";
+          columns.forEach((c) => (html += `<td>${row[c] || ""}</td>`));
+          html += "</tr>";
+        });
+
+        html += "</table>";
+        document.getElementById("preview").innerHTML = html;
+      }
+
+      // ================= GITHUB UPLOAD =================
+      async function uploadToGitHub() {
+        if (!latestJSON) {
+          alert("Process file first!");
+          return;
+        }
+
+        const TOKEN = prompt("Enter GitHub Token");
+        const OWNER = "star-academy-nirmali";
+        const REPO = "Star-Academy-Star-Academy-";
+        const PATH = "data/" + latestFileName;
+
+        const content = btoa(
+          unescape(encodeURIComponent(JSON.stringify(latestJSON, null, 2))),
+        );
+
+        try {
+          let sha = null;
+
+          const getRes = await fetch(
+            `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}`,
+            {
+              headers: { Authorization: `token ${TOKEN}` },
+            },
+          );
+
+          if (getRes.ok) {
+            const data = await getRes.json();
+            sha = data.sha;
+          }
+
+          const res = await fetch(
+            `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}`,
+            {
+              method: "PUT",
+              headers: {
+                Authorization: `token ${TOKEN}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                message: "Updated " + latestFileName,
+                content: content,
+                sha: sha,
+              }),
+            },
+          );
+
+          if (res.ok) {
+            alert("🚀 Uploaded successfully!");
+          } else {
+            const err = await res.json();
+            alert("❌ Upload failed: " + err.message);
+          }
+        } catch (err) {
+          alert("❌ Error: " + err.message);
+        }
       }
     </script>
   </body>
