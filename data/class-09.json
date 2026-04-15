@@ -1,12 +1,12 @@
 [
   {
     "Exam": "Mathematics ",
-    "Roll No": "078",
+    "Roll No": 78,
     "Correct Answers": "38",
     "Incorrect Answers": "12",
     "Not attempted": "0",
     "Math": "38.0",
-    "Total Marks": "38.0",
+    "Total Marks": 40,
     "Rank": "1"
   },
   {
